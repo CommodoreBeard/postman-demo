@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "57efb33d-4a10-456e-9219-465a85cc555f",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Adds a new item to inventory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0ec014ac-fb7d-442c-922e-7b28404dae70",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"itemName\", jsonData.name);",
+							"pm.environment.set(\"itemPrice\", jsonData.price);",
+							"pm.environment.set(\"itemId\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Test Item\",\n\t\"price\": 100.01\n}"
+				},
+				"url": {
+					"raw": "http://35.234.149.119/inventory/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"234",
+						"149",
+						"119"
+					],
+					"path": [
+						"inventory",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieves all items in inventory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7abad80c-8bc8-4ac8-913f-e5f60825d458",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var actualData = jsonData.filter(function(item) {",
+							"    return item.id == pm.environment.get(\"itemId\");",
+							"});",
+							"",
+							"pm.test(\"New item is persisted\", function () {",
+							"    pm.expect(actualData.length).to.eql(1);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://35.234.149.119/inventory/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"234",
+						"149",
+						"119"
+					],
+					"path": [
+						"inventory",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adds a new item to cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e549316e-c7d4-4c8b-a75c-c0e3a965276b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"{{itemName}}\",\n\t\"price\": \"{{itemPrice}}\",\n\t\"id\": \"{{itemId}}\"\n}"
+				},
+				"url": {
+					"raw": "http://35.234.149.119/shopping/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"234",
+						"149",
+						"119"
+					],
+					"path": [
+						"shopping",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check newly added item is in cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2e4d41b-ce35-4496-a489-dde14a099228",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var actualData = jsonData.filter(function(item) {",
+							"    return item.id == pm.environment.get(\"itemId\");",
+							"});",
+							"",
+							"pm.test(\"New item is persisted\", function () {",
+							"    pm.expect(actualData.length).to.eql(1);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://35.234.149.119/shopping/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"234",
+						"149",
+						"119"
+					],
+					"path": [
+						"shopping",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify that item is no longer available in inventory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85926519-da5b-4aea-a2a8-0b7436071470",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var actualData = jsonData.filter(function(item) {",
+							"    return item.id == pm.environment.get(\"itemId\");",
+							"});",
+							"",
+							"pm.test(\"Item no longer exists in inventory\", function () {",
+							"    pm.expect(actualData.length).to.eql(0);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://35.234.149.119/inventory/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"234",
+						"149",
+						"119"
+					],
+					"path": [
+						"inventory",
+						"items"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
