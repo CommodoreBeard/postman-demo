@@ -14,14 +14,13 @@ class ItemController(private val repository: ItemRepository) {
     @PostMapping("/items")
     @ResponseStatus(HttpStatus.CREATED)
     fun createItem(@RequestBody item: Item): Item {
-        val test = khttp.delete(
+        khttp.delete(
                 url = "$inventoryService/items",
                 json = mapOf(
                         "name" to item.name,
-                        "id" to item.inventoryId
+                        "id" to item.id
                 )
         )
-        print("HERE $test")
         return repository.save(item)
     }
 
