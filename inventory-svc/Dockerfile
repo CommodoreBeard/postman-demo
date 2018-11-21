@@ -11,8 +11,8 @@ FROM openjdk:8-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/build/libs/postman-demo.jar .
+COPY --from=builder /app/build/libs/inventory-service.jar .
 
 EXPOSE 8080
 
-CMD java -jar postman-demo.jar
+CMD java -jar inventory-service.jar
