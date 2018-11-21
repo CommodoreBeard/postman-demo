@@ -15,10 +15,8 @@ class ItemController(private val repository: ItemRepository) {
             = repository.save(item)
 
     @DeleteMapping("/items")
-    fun deleteItem(@RequestBody item: Item)
-            = repository.delete(item)
-
-	@GetMapping("/item/{name}")
-	fun findByName(@PathVariable name:String)
-			= repository.findByName(name)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteItem(@RequestBody item: Item) {
+        repository.delete(item)
+    }
 }
