@@ -80,7 +80,7 @@ paths:
                 type: number
                 description: Item price
 
-host: http://35.234.149.119/shopping
+host: 35.234.149.119/shopping
 schemes:
 - http
 consumes:

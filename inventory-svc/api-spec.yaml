@@ -105,7 +105,7 @@ paths:
                 }
               ]
 
-host: http://35.234.149.119/inventory
+host: 35.234.149.119/inventory
 schemes:
 - http
 consumes:
