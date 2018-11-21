@@ -1,0 +1,112 @@
+swagger: "2.0"
+info:
+  title: inventory-service-api-spec
+  version: "1.0.0"
+tags:
+- name: "item"
+  description: "Endpoints for manipulating items"
+paths:
+  /items:
+    get:
+      tags:
+        - "item"
+      operationId: getAllitems
+      summary: Retrieves all items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              [
+                {
+                  "name": "item1",
+                  "price": 1.11
+                  "id": 1
+                },
+                {
+                  "name": "item2",
+                  "price": 2.22
+                  "id": 2
+                }
+              ]
+
+    post:
+      tags:
+      - "item"
+      operationId: additem
+      summary: Adds a new item
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: item
+          schema:
+            type: object
+            required:
+              - name
+              - price
+            properties:
+              name:
+                type: string
+              price:
+                type: number
+
+      produces:
+        - application/json
+      responses:
+        201:
+          description: Created User Object
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: Item Id
+              name:
+                type: string
+                description: Item name
+              price:
+                type: number
+                description: Item price
+
+  /items/{name}:
+    get:
+      tags:
+      - "item"
+      operationId: getItemsByName
+      summary: Retrieves all items with a matching name
+      parameters:
+      - in: path
+        name: name
+        required: true
+        type: string
+        description: The  name of the item
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: |-
+            200 response
+          examples:
+            application/json: |-
+              [
+                {
+                  "name": "item1",
+                  "price": 1.11
+                  "id": 1
+                },
+                {
+                  "name": "item1",
+                  "price": 2.22
+                  "id": 2
+                }
+              ]
+
+host: TBD.com
+schemes:
+- http
+consumes:
+- application/json
