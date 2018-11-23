@@ -19,3 +19,6 @@ This will start services on the following ports:
 ### Interacting with the services
 Both Services provide a detailed api specification in `api-spec.yaml` in each of their respective directories
 
+# Usefull links
+- [Postman](https://www.getpostman.com/)
+- [Newman](https://www.getpostman.com/docs/v6/postman/collection_runs/command_line_integration_with_newman)
