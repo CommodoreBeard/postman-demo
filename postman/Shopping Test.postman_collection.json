@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "cc9b7452-6fec-4af6-af51-f114b7b592d1",
+		"name": "Shopping Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Browse Items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af635e09-a2f2-4305-957f-1bb688a4183d",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"verify we recieve a list with some content\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.lengthOf.at.least(1);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://35.189.92.199/inventory/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"189",
+						"92",
+						"199"
+					],
+					"path": [
+						"inventory",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new item to inventory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "018d6b35-dba5-406c-91c3-bae31145c0bf",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"itemName\", jsonData.name);",
+							"pm.environment.set(\"itemPrice\", jsonData.price);",
+							"pm.environment.set(\"itemId\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"postman new new\",\n\t\"price\": 400.10\n}"
+				},
+				"url": {
+					"raw": "http://35.189.92.199/inventory/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"189",
+						"92",
+						"199"
+					],
+					"path": [
+						"inventory",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add item to cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "77792c0a-5dc3-4663-87ea-c36c26f6caf5",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"{{itemName}}\",\n\t\"price\": \"{{itemPrice}}\",\n\t\"id\": \"{{itemId}}\"\n}"
+				},
+				"url": {
+					"raw": "http://35.189.92.199/shopping/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"189",
+						"92",
+						"199"
+					],
+					"path": [
+						"shopping",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify item is not in inventory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b744e63-9452-4a02-9272-03207aadd6cc",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"verify we recieve a list with some content\", function () {",
+							"    pm.expect(jsonData).to.have.lengthOf.at.least(1);",
+							"});",
+							"",
+							"var filteredData = jsonData.filter(function(item) {",
+							"    return item.id == pm.environment.get(\"itemId\");",
+							"});",
+							"",
+							"pm.test(\"Verify our item is not in the inventory\", function () {",
+							"    pm.expect(filteredData).to.have.lengthOf(0);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://35.189.92.199/inventory/items",
+					"protocol": "http",
+					"host": [
+						"35",
+						"189",
+						"92",
+						"199"
+					],
+					"path": [
+						"inventory",
+						"items"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
