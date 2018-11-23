@@ -95,7 +95,7 @@ paths:
         204:
           description: Item Deleted
 
-host: 35.234.149.119/inventory
+host: 35.189.92.199/inventory
 schemes:
 - http
 consumes:

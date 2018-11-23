@@ -74,7 +74,7 @@ paths:
                 type: number
                 description: Item price
 
-host: 35.234.149.119/shopping
+host: 35.189.92.199/shopping
 schemes:
 - http
 consumes:
